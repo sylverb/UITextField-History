@@ -9,7 +9,7 @@ A category of UITextfiled that can record it's input as history
 
 
 ## Demo
-<img src="https://github.com/Jameson-zxm/UITextField-History/blob/master/demo.gif" widht="370" height="500">
+<img src="https://github.com/Jameson-zxm/UITextField-History/blob/master/demo.gif" widht="372" height="648">
 
 ## Contact
 * morenotepad@163.com
