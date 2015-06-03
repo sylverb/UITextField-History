@@ -29,4 +29,9 @@
  */
 - (void) synchronize;
 
+- (void) showHistory;
+- (void) hideHistroy;
+
+- (void) clearHistory;
+
 @end
