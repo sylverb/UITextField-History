@@ -6,7 +6,8 @@ A category of UITextfiled that can record it's input as history
 * Set your textfile identify ```self.textfield.identify = TEXT_ID;```
 * load history ```NSArrray* history = [self.textfield loadHistroy]```
 * save current text ```[self.textfield synchronize]```
-
+* show histroy view ```[self showHistory]```
+* hide history view ```[self hideHistroy]```
 
 ## Demo
 <img src="https://github.com/Jameson-zxm/UITextField-History/blob/master/demo.gif" widht="372" height="648">
