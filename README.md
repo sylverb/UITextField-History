@@ -42,7 +42,7 @@ pod 'UITextField-History', :git => 'https://github.com/Jameson-zxm/UITextField-H
 ```
 
 ## Contact
-* morenotepad@163.
+* morenotepad@163.com
 
 
 ## License
