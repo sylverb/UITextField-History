@@ -1,6 +1,11 @@
 # UITextField-History
 A category of UITextfiled that can automatic record user's input history.（可以自动记录用户输入的UITextField扩展,，使用Swift2编写）
 
+## Requirements
+* Swift2+
+* Xcode 7+
+* iOS8+
+
 ## Usage
 ```ruby
 pod 'UITextField-History', :git => 'https://github.com/Jameson-zxm/UITextField-History.git'
