@@ -119,20 +119,22 @@ public extension UITextField {
     }
     
     func showHistoryView() {
-        self.historyIsVisible = true;
-        let selfOriginFrame = self.convertRect(self.bounds, toView: nil)
-        var tableViewFrame = selfOriginFrame.offsetBy(dx: 0, dy: CGRectGetHeight(self.bounds) + 2)
-        tableViewFrame.size.height = CGFloat(self.itemHeight) * CGFloat(min(8, self.historys.count+1))
-        
-        self.tableView.frame = tableViewFrame
-        
-        let window = UIApplication.sharedApplication().delegate?.window
-        
-        window??.addSubview(self.tableView)
-        self.tableView.reloadData()
+        if self.historys.count != 0 {
+            self.historyIsVisible = true;
+            let selfOriginFrame = self.convertRect(self.bounds, toView: nil)
+            var tableViewFrame = selfOriginFrame.offsetBy(dx: 0, dy: CGRectGetHeight(self.bounds) + 2)
+            tableViewFrame.size.height = CGFloat(self.itemHeight) * CGFloat(min(8, self.historys.count+1))
 
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(UITextField.handleTextFieldTap(_:)))
-        self.addGestureRecognizer(tapRecognizer)
+            self.tableView.frame = tableViewFrame
+
+            let window = UIApplication.sharedApplication().delegate?.window
+
+            window??.addSubview(self.tableView)
+            self.tableView.reloadData()
+
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(UITextField.handleTextFieldTap(_:)))
+            self.addGestureRecognizer(tapRecognizer)
+        }
     }
 
     var tableView:UITableView! {
