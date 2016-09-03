@@ -105,7 +105,7 @@ public extension UITextField {
                 return (h as! NSNumber).integerValue
             }
 
-            return 100
+            return 0
         }
 
         set {
@@ -319,8 +319,10 @@ public extension UITextField {
         
         historys.insertObject(value, atIndex: 0)
 
-        if historys.count > self.maximumSavedEntries {
-            historys.removeLastObject()
+        if self.maximumSavedEntries != 0 {
+            if historys.count > self.maximumSavedEntries {
+                historys.removeLastObject()
+            }
         }
 
         self.synchronize()
