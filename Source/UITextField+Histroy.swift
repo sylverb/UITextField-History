@@ -116,6 +116,9 @@ public extension UITextField {
         
         window??.addSubview(self.tableView)
         self.tableView.reloadData()
+
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(UITextField.handleTextFieldTap(_:)))
+        self.addGestureRecognizer(tapRecognizer)
     }
 
     var tableView:UITableView! {
@@ -161,9 +164,6 @@ public extension UITextField {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UITextField.endEditingNotification(_:)), name: UITextFieldTextDidEndEditingNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UITextField.textDidChangeNotification(_:)), name: UITextFieldTextDidChangeNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UITextField.orientationdidChangeNotification(_:)), name: UIDeviceOrientationDidChangeNotification, object: nil)
-
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(UITextField.handleTextFieldTap(_:)))
-        self.addGestureRecognizer(tapRecognizer)
     }
     
     private func removeNotification() {
@@ -176,7 +176,9 @@ public extension UITextField {
         if self.historyIsVisible {
             self.dismissHistoryView()
         } else {
-            self.showHistoryView()
+            if self.filterHistroy != nil && self.filterHistroy.count > 0 {
+                self.showHistoryView()
+            }
         }
     }
 
@@ -204,8 +206,19 @@ public extension UITextField {
             if let t = self.text where !t.isEmpty {
                 let predicate = NSPredicate(format: "SELF CONTAINS[cd] %@", t)
                 self.filterHistroy = self.historys.filteredArrayUsingPredicate(predicate)
+                if self.filterHistroy.count == 0 {
+                    if self.historyIsVisible {
+                        self.dismissHistoryView()
+                    }
+                }
+                else {
+                    self.showHistoryView()
+                }
             } else {
                 self.filterHistroy = self.historys
+                if !self.historyIsVisible {
+                    self.showHistoryView()
+                }
             }
 
             self.tableView.reloadData()
