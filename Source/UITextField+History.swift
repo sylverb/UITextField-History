@@ -1,5 +1,5 @@
 //
-//  UITextField+Histroy.swift
+//  UITextField+History.swift
 //  Example
 //
 //  Created by zhangxiuming on 15/12/18.
@@ -10,14 +10,14 @@ import Foundation
 import UIKit
 
 //extension UITextFieldDelegate {
-//    func textField(textField: UITextField, selectHistroy history:String) {
+//    func textField(textField: UITextField, selectHistory history:String) {
 //    }
 //}
 
 public extension UITextField {
     var showHistoryBeginEdit:Bool {
         get {
-            if let yes = objc_getAssociatedObject(self, &AssociatedKeys.showHistoryBeginEditKey) {
+            if let yes = objc_getAssociatedObject(self, &AssociatedKeys.ShowHistoryBeginEditKey) {
                 return (yes as! NSNumber).boolValue
             }
             
@@ -25,13 +25,13 @@ public extension UITextField {
         }
         
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.showHistoryBeginEditKey, NSNumber(bool: newValue), .OBJC_ASSOCIATION_RETAIN)
+            objc_setAssociatedObject(self, &AssociatedKeys.ShowHistoryBeginEditKey, NSNumber(bool: newValue), .OBJC_ASSOCIATION_RETAIN)
         }
     }
     
     var dismissHistoryEndEdit:Bool {
         get {
-            if let yes = objc_getAssociatedObject(self, &AssociatedKeys.dismissHistoryEndEditKey) {
+            if let yes = objc_getAssociatedObject(self, &AssociatedKeys.DismissHistoryEndEditKey) {
                 return (yes as! NSNumber).boolValue
             }
             
@@ -39,7 +39,7 @@ public extension UITextField {
         }
         
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.dismissHistoryEndEditKey, NSNumber(bool: newValue), .OBJC_ASSOCIATION_RETAIN)
+            objc_setAssociatedObject(self, &AssociatedKeys.DismissHistoryEndEditKey, NSNumber(bool: newValue), .OBJC_ASSOCIATION_RETAIN)
         }
     }
 
@@ -59,7 +59,7 @@ public extension UITextField {
     
     var clearButtonTitle:String! {
         get {
-            if let title = objc_getAssociatedObject(self, &AssociatedKeys.clearButtonTitleKey) {
+            if let title = objc_getAssociatedObject(self, &AssociatedKeys.ClearButtonTitleKey) {
                 return title as! String
             }
             
@@ -67,7 +67,7 @@ public extension UITextField {
         }
         
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.clearButtonTitleKey, newValue, .OBJC_ASSOCIATION_RETAIN)
+            objc_setAssociatedObject(self, &AssociatedKeys.ClearButtonTitleKey, newValue, .OBJC_ASSOCIATION_RETAIN)
         }
     }
     
@@ -190,7 +190,7 @@ public extension UITextField {
         if self.historyIsVisible {
             self.dismissHistoryView()
         } else {
-            if self.filterHistroy != nil && self.filterHistroy.count > 0 {
+            if self.filterHistory != nil && self.filterHistory.count > 0 {
                 self.showHistoryView()
             }
         }
@@ -199,7 +199,7 @@ public extension UITextField {
     func beginEditingNotification(aNoti:NSNotification) {
         if aNoti.object === self {
             if self.historys.count == 0 { return }
-            self.filterHistroy = self.historys
+            self.filterHistory = self.historys
             
             if self.showHistoryBeginEdit {
                 self.showHistoryView()
@@ -219,8 +219,8 @@ public extension UITextField {
         if aNoti.object === self {
             if let t = self.text where !t.isEmpty {
                 let predicate = NSPredicate(format: "SELF CONTAINS[cd] %@", t)
-                self.filterHistroy = self.historys.filteredArrayUsingPredicate(predicate)
-                if self.filterHistroy.count == 0 {
+                self.filterHistory = self.historys.filteredArrayUsingPredicate(predicate)
+                if self.filterHistory.count == 0 {
                     if self.historyIsVisible {
                         self.dismissHistoryView()
                     }
@@ -229,7 +229,7 @@ public extension UITextField {
                     self.showHistoryView()
                 }
             } else {
-                self.filterHistroy = self.historys
+                self.filterHistory = self.historys
                 if !self.historyIsVisible {
                     self.showHistoryView()
                 }
@@ -251,26 +251,26 @@ public extension UITextField {
 
 public extension UITextField {
     private struct AssociatedKeys {
-        static var HistoryKey               = "UITextField+historyKey"
-        static var HistoryIsVisibleKey      = "UITextField+HistoryIsVisibleKey"
+        static var HistoryKey               = "UITextField+History+HistoryKey"
+        static var HistoryIsVisibleKey      = "UITextField+History+HistoryIsVisibleKey"
         static var IdentifyKey              = "UITextField+History+Identify"
         static var TableViewKey             = "UITextField+History+TableView"
         static var ItemCellHeightKey        = "UITextField+History+ItemCellHeight"
         static var MaximumItemKey           = "UITextField+History+MaximumItem"
         static var MaximumSavedEntriesKey   = "UITextField+History+MaximumSavedEntries"
-        static var filterArrayKey           = "UITextField+History+filterArray"
-        static var clearButtonTitleKey      = "UITextField+History+clearButtonTitle"
-        static var showHistoryBeginEditKey  = "UITextField+History+showHistoryBeginEdit"
-        static var dismissHistoryEndEditKey = "UITextField+History+dismissHistoryEndEdit"
+        static var FilterArrayKey           = "UITextField+History+FilterArray"
+        static var ClearButtonTitleKey      = "UITextField+History+ClearButtonTitle"
+        static var ShowHistoryBeginEditKey  = "UITextField+History+ShowHistoryBeginEdit"
+        static var DismissHistoryEndEditKey = "UITextField+History+DismissHistoryEndEdit"
     }
     
-    private var filterHistroy:NSArray! {
+    private var filterHistory:NSArray! {
         get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.filterArrayKey) as? NSArray
+            return objc_getAssociatedObject(self, &AssociatedKeys.FilterArrayKey) as? NSArray
         }
         
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.filterArrayKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &AssociatedKeys.FilterArrayKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
     
@@ -328,7 +328,7 @@ public extension UITextField {
     
     func clearAllHistory() {
         self.historys.removeAllObjects()
-        self.filterHistroy = self.historys
+        self.filterHistory = self.historys
         self.synchronize()
         
         self.tableView.removeFromSuperview()
@@ -338,9 +338,9 @@ public extension UITextField {
 
 extension UITextField:UITableViewDelegate, UITableViewDataSource {
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let _ = self.filterHistroy { } else { self.filterHistroy = self.historys }
+        if let _ = self.filterHistory { } else { self.filterHistory = self.historys }
         
-        return self.filterHistroy.count
+        return self.filterHistory.count
     }
     
     public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -354,7 +354,7 @@ extension UITextField:UITableViewDelegate, UITableViewDataSource {
             cell?.selectionStyle = .None
         }
         
-        cell?.textLabel?.text = self.filterHistroy.objectAtIndex(indexPath.row) as? String
+        cell?.textLabel?.text = self.filterHistory.objectAtIndex(indexPath.row) as? String
         
         return cell!
     }
@@ -383,8 +383,8 @@ extension UITextField:UITableViewDelegate, UITableViewDataSource {
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let history = self.historys[indexPath.row] as! String
         
-        if let dlg = self.delegate where dlg.respondsToSelector("textField:selectHistroy:") {
-            dlg.performSelector("textField:selectHistroy:", withObject: self, withObject: history)
+        if let dlg = self.delegate where dlg.respondsToSelector("textField:selectHistory:") {
+            dlg.performSelector("textField:selectHistory:", withObject: self, withObject: history)
         }
         
         self.tableView.removeFromSuperview()

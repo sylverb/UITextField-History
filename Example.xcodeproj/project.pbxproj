@@ -12,7 +12,7 @@
 		8E3CCDAA1C23DDE600A859FB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E3CCDA81C23DDE600A859FB /* Main.storyboard */; };
 		8E3CCDAC1C23DDE600A859FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E3CCDAB1C23DDE600A859FB /* Assets.xcassets */; };
 		8E3CCDAF1C23DDE600A859FB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E3CCDAD1C23DDE600A859FB /* LaunchScreen.storyboard */; };
-		8E3CCDB81C23DEE000A859FB /* UITextField+Histroy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3CCDB71C23DEE000A859FB /* UITextField+Histroy.swift */; };
+		8E3CCDB81C23DEE000A859FB /* UITextField+History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3CCDB71C23DEE000A859FB /* UITextField+History.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,7 +23,7 @@
 		8E3CCDAB1C23DDE600A859FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E3CCDAE1C23DDE600A859FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8E3CCDB01C23DDE600A859FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8E3CCDB71C23DEE000A859FB /* UITextField+Histroy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+Histroy.swift"; sourceTree = "<group>"; };
+		8E3CCDB71C23DEE000A859FB /* UITextField+History.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+History.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +70,7 @@
 		8E3CCDB61C23DEB500A859FB /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				8E3CCDB71C23DEE000A859FB /* UITextField+Histroy.swift */,
+				8E3CCDB71C23DEE000A859FB /* UITextField+History.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -149,7 +149,7 @@
 			files = (
 				8E3CCDA71C23DDE600A859FB /* ViewController.swift in Sources */,
 				8E3CCDA51C23DDE600A859FB /* AppDelegate.swift in Sources */,
-				8E3CCDB81C23DEE000A859FB /* UITextField+Histroy.swift in Sources */,
+				8E3CCDB81C23DEE000A859FB /* UITextField+History.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -50,7 +50,7 @@ extension ViewController:UITextFieldDelegate {
         }
     }
     
-    func textField(textField: UITextField, selectHistroy history:String) {
+    func textField(textField: UITextField, selectHistory history:String) {
         let alert = UIAlertView(title: "Hello", message: history, delegate: nil, cancelButtonTitle: "OK")
         
         alert.show()
