@@ -99,6 +99,20 @@ public extension UITextField {
         }
     }
 
+    var maximumSavedEntries:NSInteger {
+        get {
+            if let h = objc_getAssociatedObject(self, &AssociatedKeys.MaximumSavedEntriesKey) {
+                return (h as! NSNumber).integerValue
+            }
+
+            return 100
+        }
+
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.MaximumSavedEntriesKey, NSNumber(integer: newValue), .OBJC_ASSOCIATION_RETAIN)
+        }
+    }
+
     func dismissHistoryView() {
         self.historyIsVisible = false;
         self.tableView.removeFromSuperview()
@@ -237,14 +251,15 @@ public extension UITextField {
 
 public extension UITextField {
     private struct AssociatedKeys {
-        static var HistoryKey            = "UITextField+historyKey"
-        static var HistoryIsVisibleKey   = "UITextField+HistoryIsVisibleKey"
-        static var IdentifyKey           = "UITextField+History+Identify"
-        static var TableViewKey          = "UITextField+History+TableView"
-        static var ItemCellHeightKey     = "UITextField+History+ItemCellHeight"
-        static var MaximumItemKey        = "UITextField+History+MaximumItem"
-        static var filterArrayKey        = "UITextField+History+filterArray"
-        static var clearButtonTitleKey   = "UITextField+History+clearButtonTitle"
+        static var HistoryKey               = "UITextField+historyKey"
+        static var HistoryIsVisibleKey      = "UITextField+HistoryIsVisibleKey"
+        static var IdentifyKey              = "UITextField+History+Identify"
+        static var TableViewKey             = "UITextField+History+TableView"
+        static var ItemCellHeightKey        = "UITextField+History+ItemCellHeight"
+        static var MaximumItemKey           = "UITextField+History+MaximumItem"
+        static var MaximumSavedEntriesKey   = "UITextField+History+MaximumSavedEntries"
+        static var filterArrayKey           = "UITextField+History+filterArray"
+        static var clearButtonTitleKey      = "UITextField+History+clearButtonTitle"
         static var showHistoryBeginEditKey  = "UITextField+History+showHistoryBeginEdit"
         static var dismissHistoryEndEditKey = "UITextField+History+dismissHistoryEndEdit"
     }
@@ -303,6 +318,11 @@ public extension UITextField {
         }
         
         historys.insertObject(value, atIndex: 0)
+
+        if historys.count > self.maximumSavedEntries {
+            historys.removeLastObject()
+        }
+
         self.synchronize()
     }
     
