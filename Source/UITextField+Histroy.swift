@@ -14,7 +14,7 @@ import UIKit
 //    }
 //}
 
-extension UITextField {
+public extension UITextField {
     var showHistoryBeginEdit:Bool {
         get {
             if let yes = objc_getAssociatedObject(self, &AssociatedKeys.showHistoryBeginEditKey) {
@@ -212,7 +212,7 @@ extension UITextField {
     }
 }
 
-extension UITextField {
+public extension UITextField {
     private struct AssociatedKeys {
         static var HistoryKey            = "UITextField+historyKey"
         static var HistoryIsVisibleKey   = "UITextField+HistoryIsVisibleKey"
