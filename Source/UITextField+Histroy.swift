@@ -100,10 +100,12 @@ extension UITextField {
     }
 
     func dismissHistoryView() {
+        self.historyIsVisible = false;
         self.tableView.removeFromSuperview()
     }
     
     func showHistoryView() {
+        self.historyIsVisible = true;
         let selfOriginFrame = self.convertRect(self.bounds, toView: nil)
         var tableViewFrame = selfOriginFrame.offsetBy(dx: 0, dy: CGRectGetHeight(self.bounds) + 2)
         tableViewFrame.size.height = CGFloat(self.itemHeight) * CGFloat(min(8, self.historys.count+1))
@@ -140,10 +142,27 @@ extension UITextField {
         }
     }
 
+    var historyIsVisible:Bool {
+        get {
+            if let yes = objc_getAssociatedObject(self, &AssociatedKeys.HistoryIsVisibleKey) {
+                return (yes as! NSNumber).boolValue
+            }
+
+            return false
+        }
+
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.HistoryIsVisibleKey, NSNumber(bool: newValue), .OBJC_ASSOCIATION_RETAIN)
+        }
+    }
+
     private func addNotification() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UITextField.beginEditingNotification(_:)), name: UITextFieldTextDidBeginEditingNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UITextField.endEditingNotification(_:)), name: UITextFieldTextDidEndEditingNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UITextField.textDidChangeNotification(_:)), name: UITextFieldTextDidChangeNotification, object: nil)
+
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(UITextField.handleTextFieldTap(_:)))
+        self.addGestureRecognizer(tapRecognizer)
     }
     
     private func removeNotification() {
@@ -151,7 +170,15 @@ extension UITextField {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UITextFieldTextDidEndEditingNotification, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UITextFieldTextDidChangeNotification, object: nil)
     }
-    
+
+    func handleTextFieldTap(recognizer: UITapGestureRecognizer) {
+        if self.historyIsVisible {
+            self.dismissHistoryView()
+        } else {
+            self.showHistoryView()
+        }
+    }
+
     func beginEditingNotification(aNoti:NSNotification) {
         if aNoti.object === self {
             if self.historys.count == 0 { return }
@@ -188,6 +215,7 @@ extension UITextField {
 extension UITextField {
     private struct AssociatedKeys {
         static var HistoryKey            = "UITextField+historyKey"
+        static var HistoryIsVisibleKey   = "UITextField+HistoryIsVisibleKey"
         static var IdentifyKey           = "UITextField+History+Identify"
         static var TableViewKey          = "UITextField+History+TableView"
         static var ItemCellHeightKey     = "UITextField+History+ItemCellHeight"
@@ -239,7 +267,7 @@ extension UITextField {
         
         return NSMutableArray(array: obj as! NSArray)
     }
-    
+
     func addHistory() {
         guard let value = self.text else { return }
         
