@@ -141,9 +141,9 @@ extension UITextField {
     }
 
     private func addNotification() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "beginEditingNotification:", name: UITextFieldTextDidBeginEditingNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "endEditingNotification:", name: UITextFieldTextDidEndEditingNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "textDidChangeNotification:", name: UITextFieldTextDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UITextField.beginEditingNotification(_:)), name: UITextFieldTextDidBeginEditingNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UITextField.endEditingNotification(_:)), name: UITextFieldTextDidEndEditingNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UITextField.textDidChangeNotification(_:)), name: UITextFieldTextDidChangeNotification, object: nil)
     }
     
     private func removeNotification() {
@@ -296,7 +296,7 @@ extension UITextField:UITableViewDelegate, UITableViewDataSource {
         
         let footer = UIButton(type: .RoundedRect)
         footer.setTitle(self.clearButtonTitle, forState: .Normal)
-        footer.addTarget(self, action: "clearAllHistory", forControlEvents: .TouchUpInside)
+        footer.addTarget(self, action: #selector(UITextField.clearAllHistory), forControlEvents: .TouchUpInside)
         
         return footer
     }
