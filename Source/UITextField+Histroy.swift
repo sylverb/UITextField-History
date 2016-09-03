@@ -160,6 +160,7 @@ public extension UITextField {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UITextField.beginEditingNotification(_:)), name: UITextFieldTextDidBeginEditingNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UITextField.endEditingNotification(_:)), name: UITextFieldTextDidEndEditingNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UITextField.textDidChangeNotification(_:)), name: UITextFieldTextDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UITextField.orientationdidChangeNotification(_:)), name: UIDeviceOrientationDidChangeNotification, object: nil)
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(UITextField.handleTextFieldTap(_:)))
         self.addGestureRecognizer(tapRecognizer)
@@ -208,6 +209,15 @@ public extension UITextField {
             }
 
             self.tableView.reloadData()
+        }
+    }
+
+    func orientationdidChangeNotification(aNoti:NSNotification) {
+        if self.historyIsVisible {
+            let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.2 * Double(NSEC_PER_SEC)))
+            dispatch_after(dispatchTime, dispatch_get_main_queue(), {
+                self.showHistoryView()
+            })
         }
     }
 }
