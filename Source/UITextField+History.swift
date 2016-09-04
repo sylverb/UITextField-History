@@ -385,7 +385,7 @@ extension UITextField:UITableViewDelegate, UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let history = self.historys[indexPath.row] as! String
+        let history = self.filterHistory[indexPath.row] as! String
         
         if let dlg = self.delegate where dlg.respondsToSelector("textField:selectHistory:") {
             dlg.performSelector("textField:selectHistory:", withObject: self, withObject: history)
