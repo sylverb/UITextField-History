@@ -14,7 +14,26 @@ import UIKit
 //    }
 //}
 
+@objc public protocol UITextFieldHistoryDelegate: class {
+    optional func textField(textField: UITextField, selectHistory history:String)
+}
+
 public extension UITextField {
+    weak var historyDelegate:UITextFieldHistoryDelegate?
+        {
+        get {
+            if let h = objc_getAssociatedObject(self, &AssociatedKeys.HistoryDelegateKey) {
+                return (h as! UITextFieldHistoryDelegate)
+            }
+
+            return nil
+        }
+
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.HistoryDelegateKey, newValue, .OBJC_ASSOCIATION_RETAIN)
+        }
+    }
+
     var showHistoryBeginEdit:Bool {
         get {
             if let yes = objc_getAssociatedObject(self, &AssociatedKeys.ShowHistoryBeginEditKey) {
@@ -253,6 +272,7 @@ public extension UITextField {
 
 public extension UITextField {
     private struct AssociatedKeys {
+        static var HistoryDelegateKey       = "UITextField+History+HistoryDelegateKey"
         static var HistoryKey               = "UITextField+History+HistoryKey"
         static var HistoryIsVisibleKey      = "UITextField+History+HistoryIsVisibleKey"
         static var IdentifyKey              = "UITextField+History+Identify"
@@ -386,7 +406,8 @@ extension UITextField:UITableViewDelegate, UITableViewDataSource {
     
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let history = self.filterHistory[indexPath.row] as! String
-        
+
+        self.historyDelegate?.textField!(self,selectHistory: history)
         if let dlg = self.delegate where dlg.respondsToSelector("textField:selectHistory:") {
             dlg.performSelector("textField:selectHistory:", withObject: self, withObject: history)
         }
